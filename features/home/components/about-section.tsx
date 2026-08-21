@@ -1,5 +1,6 @@
 import { Container } from '@/shared/ui/container'
 import { SectionLabel } from '@/shared/ui/section-label'
+import aboutPhoto from '@/assets/about/IMG_8468.jpg'
 
 export function AboutSection() {
   return (
@@ -30,7 +31,7 @@ export function AboutSection() {
             }}
           >
             <img
-              src="/IMG_8468.jpg"
+              src={aboutPhoto.src}
               alt="Viktoria Sachko"
               style={{
                 width: '100%',

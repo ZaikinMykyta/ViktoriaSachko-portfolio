@@ -1,15 +1,29 @@
 import type { Project } from '@/entities/project/model/types'
 
+import img0032 from '@/assets/photos/IMG_0032.jpg'
+import img0034 from '@/assets/photos/IMG_0034.jpg'
+import img0035 from '@/assets/photos/IMG_0035.jpg'
+import img0036 from '@/assets/photos/IMG_0036.jpg'
+import img0037 from '@/assets/photos/IMG_0037.jpg'
+import img0039 from '@/assets/photos/IMG_0039.jpg'
+import img0482 from '@/assets/photos/IMG_0482.jpg'
+import img0487 from '@/assets/photos/IMG_0487.jpg'
+import img6536 from '@/assets/photos/IMG_6536.jpg'
+import img6537 from '@/assets/photos/IMG_6537.jpg'
+import img6542 from '@/assets/photos/IMG_6542.jpg'
+import img6708 from '@/assets/photos/IMG_6708.jpg'
+import img6722 from '@/assets/photos/IMG_6722.jpg'
+
 export const photos: Project[] = [
   {
     id: 'look-01',
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2025',
-    cover: '/IMG_0032.JPG',
+    cover: img0032.src,
     media: [{
       type: 'image',
-      url: '/IMG_0032.JPG',
+      url: img0032.src,
       alt: 'Модель у білому образі на сцені',
     }],
   },
@@ -18,10 +32,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2025',
-    cover: '/IMG_0034.JPG',
+    cover: img0034.src,
     media: [{
       type: 'image',
-      url: '/IMG_0034.JPG',
+      url: img0034.src,
       alt: 'Портрет моделі у червоному',
     }],
   },
@@ -30,10 +44,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2025',
-    cover: '/IMG_0035.JPG',
+    cover: img0035.src,
     media: [{
       type: 'image',
-      url: '/IMG_0035.JPG',
+      url: img0035.src,
       alt: 'Модель на показі моди',
     }],
   },
@@ -42,10 +56,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_0036.JPG',
+    cover: img0036.src,
     media: [{
       type: 'image',
-      url: '/IMG_0036.JPG',
+      url: img0036.src,
       alt: 'Портретне фото у студії',
     }],
   },
@@ -54,10 +68,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_0037.JPG',
+    cover: img0037.src,
     media: [{
       type: 'image',
-      url: '/IMG_0037.JPG',
+      url: img0037.src,
       alt: 'Портретне фото у студії',
     }],
   },
@@ -66,10 +80,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_0039.JPG',
+    cover: img0039.src,
     media: [{
       type: 'image',
-      url: '/IMG_0039.JPG',
+      url: img0039.src,
       alt: 'Портретне фото у студії',
     }],
   },
@@ -78,10 +92,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_0482.JPG',
+    cover: img0482.src,
     media: [{
       type: 'image',
-      url: '/IMG_0482.JPG',
+      url: img0482.src,
       alt: 'Портретне фото у студії',
     }],
   },
@@ -90,10 +104,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_0487.JPG',
+    cover: img0487.src,
     media: [{
       type: 'image',
-      url: '/IMG_0487.JPG',
+      url: img0487.src,
       alt: 'Портретне фото у студії',
     }],
   },
@@ -102,10 +116,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_6536.JPG',
+    cover: img6536.src,
     media: [{
       type: 'image',
-      url: '/IMG_6536.JPG',
+      url: img6536.src,
       alt: 'Портретне фото у студії',
     }],
   },
@@ -114,10 +128,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_6537.JPG',
+    cover: img6537.src,
     media: [{
       type: 'image',
-      url: '/IMG_6537.JPG',
+      url: img6537.src,
       alt: 'Портретне фото у студії',
     }],
   },
@@ -126,10 +140,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_6542.JPG',
+    cover: img6542.src,
     media: [{
       type: 'image',
-      url: '/IMG_6542.JPG',
+      url: img6542.src,
       alt: 'Портретне фото у студії',
     }],
   },
@@ -138,10 +152,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_6708.JPG',
+    cover: img6708.src,
     media: [{
       type: 'image',
-      url: '/IMG_6708.JPG',
+      url: img6708.src,
       alt: 'Портретне фото у студії',
     }],
   },
@@ -150,10 +164,10 @@ export const photos: Project[] = [
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
-    cover: '/IMG_6722.JPG',
+    cover: img6722.src,
     media: [{
       type: 'image',
-      url: '/IMG_6722.JPG',
+      url: img6722.src,
       alt: 'Портретне фото у студії',
     }],
   },
