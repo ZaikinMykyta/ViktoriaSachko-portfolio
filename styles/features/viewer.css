@@ -173,10 +173,31 @@
   accent-color: var(--accent);
 }
 
+.video-volume-desktop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
 .video-controls .video-volume {
   flex: 0 0 80px;
   width: 80px;
   accent-color: var(--accent);
+}
+
+.video-mute-mobile {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .video-volume-desktop {
+    display: none;
+  }
+
+  .video-mute-mobile {
+    display: grid;
+  }
 }
 
 .video-controls button {

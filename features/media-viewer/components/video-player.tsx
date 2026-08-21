@@ -163,6 +163,16 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
     }
   }
 
+  const toggleMute = () => {
+    const video = videoRef.current
+    const nextVolume = volume > 0 ? 0 : 1
+
+    setVolume(nextVolume)
+    if (video) {
+      applyVolume(video, nextVolume)
+    }
+  }
+
   const stopVolumeScrub = (event: React.PointerEvent<HTMLInputElement>) => {
     event.stopPropagation()
     isScrubbingVolume.current = false
@@ -224,30 +234,44 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
             handleProgressInput(Number(event.currentTarget.value))
           }}
         />
-        {volume > 0 ? <Volume2 /> : <VolumeX />}
-        <input
-          aria-label="Гучність"
-          className="video-volume"
-          type="range"
-          min={0}
-          max={100}
-          step={1}
-          value={Math.round(volume * 100)}
+        <div className="video-volume-desktop">
+          {volume > 0 ? <Volume2 /> : <VolumeX />}
+          <input
+            aria-label="Гучність"
+            className="video-volume"
+            type="range"
+            min={0}
+            max={100}
+            step={1}
+            value={Math.round(volume * 100)}
+            onPointerDown={(event) => {
+              event.stopPropagation()
+              isScrubbingVolume.current = true
+            }}
+            onPointerUp={stopVolumeScrub}
+            onPointerCancel={stopVolumeScrub}
+            onInput={(event) => {
+              event.stopPropagation()
+              handleVolumeInput(Number(event.currentTarget.value) / 100)
+            }}
+            onChange={(event) => {
+              event.stopPropagation()
+              handleVolumeInput(Number(event.currentTarget.value) / 100)
+            }}
+          />
+        </div>
+        <button
+          type="button"
+          className="video-mute-mobile"
           onPointerDown={(event) => {
+            event.preventDefault()
             event.stopPropagation()
-            isScrubbingVolume.current = true
+            toggleMute()
           }}
-          onPointerUp={stopVolumeScrub}
-          onPointerCancel={stopVolumeScrub}
-          onInput={(event) => {
-            event.stopPropagation()
-            handleVolumeInput(Number(event.currentTarget.value) / 100)
-          }}
-          onChange={(event) => {
-            event.stopPropagation()
-            handleVolumeInput(Number(event.currentTarget.value) / 100)
-          }}
-        />
+          aria-label={volume > 0 ? 'Вимкнути звук' : 'Увімкнути звук'}
+        >
+          {volume > 0 ? <Volume2 /> : <VolumeX />}
+        </button>
         <button type="button" onClick={() => videoRef.current?.requestFullscreen()} aria-label="На весь екран">
           <Maximize2 />
         </button>
