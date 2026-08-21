@@ -21,11 +21,13 @@
 }
 
 .video-thumb img,
+.video-thumb video,
 .video-thumb-placeholder {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
+  pointer-events: none;
 }
 
 .video-thumb-placeholder {
@@ -41,7 +43,8 @@
   }
 }
 
-.video-card:hover .video-thumb img {
+.video-card:hover .video-thumb img,
+.video-card:hover .video-thumb video {
   transform: scale(1.03);
 }
 

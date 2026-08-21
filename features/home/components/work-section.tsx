@@ -42,7 +42,7 @@ export function WorkSection({
               onPointerDown={() => onOpenVideo(index)}
             >
               <span className="video-thumb">
-                <VideoThumbnail src={video.url} alt={video.title} />
+                <VideoThumbnail src={video.url} poster={video.poster} alt={video.title} />
                 <span className="video-play"><Play /></span>
               </span>
               <span className="video-info">
