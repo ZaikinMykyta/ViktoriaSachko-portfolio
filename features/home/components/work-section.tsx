@@ -39,7 +39,7 @@ export function WorkSection({
               type="button"
               className="video-card"
               key={video.title}
-              onClick={() => onOpenVideo(index)}
+              onPointerDown={() => onOpenVideo(index)}
             >
               <span className="video-thumb">
                 <VideoThumbnail src={video.url} alt={video.title} />

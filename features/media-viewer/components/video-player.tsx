@@ -1,15 +1,30 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react'
 import { Maximize2, Pause, Play, Volume2 } from 'lucide-react'
+
+export type VideoPlayerHandle = {
+  playWithSound: () => Promise<void>
+}
 
 type VideoPlayerProps = {
   src: string
   keyId: string
   autoPlay?: boolean
+  manualStart?: boolean
 }
 
-export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
+export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(function VideoPlayer(
+  { src, keyId, autoPlay = true, manualStart = false },
+  ref,
+) {
   const [playing, setPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
   const [volume, setVolume] = useState(1)
@@ -19,6 +34,29 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
     video.muted = false
     video.volume = level
   }, [volume])
+
+  const playWithSound = useCallback(async () => {
+    const video = videoRef.current
+    if (!video) return
+
+    applyAudio(video)
+
+    try {
+      await video.play()
+      setPlaying(true)
+    } catch {
+      try {
+        video.muted = true
+        await video.play()
+        applyAudio(video)
+        setPlaying(true)
+      } catch {
+        setPlaying(false)
+      }
+    }
+  }, [applyAudio])
+
+  useImperativeHandle(ref, () => ({ playWithSound }), [playWithSound])
 
   useEffect(() => {
     const video = videoRef.current
@@ -33,7 +71,7 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
     setPlaying(false)
     setProgress(0)
 
-    if (!autoPlay) return
+    if (!autoPlay || manualStart) return
 
     const startPlayback = async () => {
       try {
@@ -62,7 +100,7 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
 
     video.addEventListener('loadeddata', startPlayback, { once: true })
     return () => video.removeEventListener('loadeddata', startPlayback)
-  }, [keyId, src, autoPlay, applyAudio])
+  }, [keyId, src, autoPlay, manualStart, applyAudio])
 
   const togglePlay = async () => {
     const video = videoRef.current
@@ -79,16 +117,10 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
       return
     }
 
-    try {
-      applyAudio(video)
-      await video.play()
-      setPlaying(true)
-    } catch {
-      setPlaying(false)
-    }
+    await playWithSound()
   }
 
-  const handleVideoClick = () => {
+  const handleVideoPointerDown = () => {
     const video = videoRef.current
     if (!video) return
 
@@ -97,7 +129,9 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
       return
     }
 
-    void togglePlay()
+    if (!playing) {
+      void playWithSound()
+    }
   }
 
   return (
@@ -107,15 +141,23 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
         key={keyId}
         src={src}
         playsInline
+        preload="auto"
         onTimeUpdate={() => {
           const video = videoRef.current
           if (video) setProgress(video.duration ? (video.currentTime / video.duration) * 100 : 0)
         }}
         onEnded={() => setPlaying(false)}
-        onClick={handleVideoClick}
+        onPointerDown={handleVideoPointerDown}
       />
       <div className="video-controls">
-        <button type="button" onClick={() => void togglePlay()} aria-label={playing ? 'Пауза' : 'Відтворити'}>
+        <button
+          type="button"
+          onPointerDown={(event) => {
+            event.preventDefault()
+            void togglePlay()
+          }}
+          aria-label={playing ? 'Пауза' : 'Відтворити'}
+        >
           {playing ? <Pause /> : <Play />}
         </button>
         <input
@@ -155,4 +197,4 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
       </div>
     </div>
   )
-}
+})

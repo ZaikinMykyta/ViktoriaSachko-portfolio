@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import type { Project } from '@/entities/project'
 import { AboutSection } from '@/features/home/components/about-section'
 import { ContactSection } from '@/features/home/components/contact-section'
 import { HeroSection } from '@/features/home/components/hero-section'
 import { WorkSection } from '@/features/home/components/work-section'
-import { MediaViewer } from '@/features/media-viewer'
+import { MediaViewer, type MediaViewerHandle } from '@/features/media-viewer'
 import { Navigation } from '@/features/navigation'
 import { portfolioService } from '@/services/portfolio.service'
 import { viewerService } from '@/services/viewer.service'
@@ -15,6 +16,7 @@ import type { ViewerState } from '@/shared/types/viewer.types'
 
 export function HomePage() {
   const [viewer, setViewer] = useState<ViewerState | null>(null)
+  const viewerRef = useRef<MediaViewerHandle>(null)
   const photos = portfolioService.getPhotos()
   const videos = portfolioService.getVideos()
 
@@ -23,7 +25,10 @@ export function HomePage() {
   }
 
   const openVideo = (index: number) => {
-    setViewer(viewerService.createVideoViewerState(index))
+    flushSync(() => {
+      setViewer(viewerService.createVideoViewerState(index, true))
+    })
+    void viewerRef.current?.playVideoWithSound()
   }
 
   return (
@@ -45,7 +50,9 @@ export function HomePage() {
 
       <SiteFooter />
 
-      {viewer && <MediaViewer state={viewer} onClose={() => setViewer(null)} />}
+      {viewer && (
+        <MediaViewer ref={viewerRef} state={viewer} onClose={() => setViewer(null)} />
+      )}
     </>
   )
 }

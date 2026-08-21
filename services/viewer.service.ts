@@ -19,7 +19,7 @@ export const viewerService = {
     }
   },
 
-  createVideoViewerState(startIndex: number): ViewerState {
+  createVideoViewerState(startIndex: number, userInitiated = false): ViewerState {
     const video = videos[startIndex]
 
     return {
@@ -34,6 +34,7 @@ export const viewerService = {
       title: video.title,
       category: video.category,
       year: '2025',
+      userInitiated,
     }
   },
 }

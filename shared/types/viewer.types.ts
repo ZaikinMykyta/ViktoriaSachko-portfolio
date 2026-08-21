@@ -6,4 +6,5 @@ export type ViewerState = {
   title: string
   category: string
   year: string
+  userInitiated?: boolean
 }

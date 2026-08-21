@@ -161,6 +161,12 @@
   opacity: 1;
 }
 
+@media (hover: none) {
+  .video-controls {
+    opacity: 1;
+  }
+}
+
 .video-controls input {
   flex: 1;
   accent-color: var(--accent);
