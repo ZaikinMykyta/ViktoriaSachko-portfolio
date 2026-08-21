@@ -1,0 +1,20 @@
+.site-footer {
+  padding: 20px 0 32px;
+  border-top: 1px solid var(--line);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.footer-inner a {
+  color: var(--accent);
+}
+
+.footer-inner a:hover {
+  text-decoration: underline;
+}

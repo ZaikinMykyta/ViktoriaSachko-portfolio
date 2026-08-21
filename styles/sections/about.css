@@ -1,0 +1,21 @@
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.about h2 {
+  margin: 0;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.about-copy p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 17px;
+  line-height: 1.58824;
+}
