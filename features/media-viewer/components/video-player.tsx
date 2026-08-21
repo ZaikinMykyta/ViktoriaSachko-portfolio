@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Maximize2, Pause, Play, Volume2 } from 'lucide-react'
 
 type VideoPlayerProps = {
@@ -15,6 +15,17 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
   const [volume, setVolume] = useState(1)
   const videoRef = useRef<HTMLVideoElement>(null)
 
+  const applyAudio = useCallback((video: HTMLVideoElement, level = volume) => {
+    video.muted = false
+    video.volume = level
+  }, [volume])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    video.volume = volume
+  }, [volume])
+
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
@@ -26,7 +37,18 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
 
     const startPlayback = async () => {
       try {
+        applyAudio(video)
         await video.play()
+        setPlaying(true)
+        return
+      } catch {
+        // Fallback: muted autoplay if the browser blocks unmuted start.
+      }
+
+      try {
+        video.muted = true
+        await video.play()
+        applyAudio(video)
         setPlaying(true)
       } catch {
         setPlaying(false)
@@ -40,24 +62,42 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
 
     video.addEventListener('loadeddata', startPlayback, { once: true })
     return () => video.removeEventListener('loadeddata', startPlayback)
-  }, [keyId, src, autoPlay])
+  }, [keyId, src, autoPlay, applyAudio])
 
   const togglePlay = async () => {
     const video = videoRef.current
     if (!video) return
 
     if (playing) {
+      if (video.muted) {
+        applyAudio(video)
+        return
+      }
+
       video.pause()
       setPlaying(false)
       return
     }
 
     try {
+      applyAudio(video)
       await video.play()
       setPlaying(true)
     } catch {
       setPlaying(false)
     }
+  }
+
+  const handleVideoClick = () => {
+    const video = videoRef.current
+    if (!video) return
+
+    if (video.muted && playing) {
+      applyAudio(video)
+      return
+    }
+
+    void togglePlay()
   }
 
   return (
@@ -67,16 +107,15 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
         key={keyId}
         src={src}
         playsInline
-        muted={autoPlay}
         onTimeUpdate={() => {
           const video = videoRef.current
           if (video) setProgress(video.duration ? (video.currentTime / video.duration) * 100 : 0)
         }}
         onEnded={() => setPlaying(false)}
-        onClick={togglePlay}
+        onClick={handleVideoClick}
       />
       <div className="video-controls">
-        <button type="button" onClick={togglePlay} aria-label={playing ? 'Пауза' : 'Відтворити'}>
+        <button type="button" onClick={() => void togglePlay()} aria-label={playing ? 'Пауза' : 'Відтворити'}>
           {playing ? <Pause /> : <Play />}
         </button>
         <input
@@ -106,8 +145,7 @@ export function VideoPlayer({ src, keyId, autoPlay = true }: VideoPlayerProps) {
             const value = Number(event.target.value)
             setVolume(value)
             if (videoRef.current) {
-              videoRef.current.muted = false
-              videoRef.current.volume = value
+              applyAudio(videoRef.current, value)
             }
           }}
         />
