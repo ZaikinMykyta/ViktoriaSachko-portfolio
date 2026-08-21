@@ -167,13 +167,16 @@
   }
 }
 
-.video-controls input {
+.video-controls .video-progress {
   flex: 1;
+  min-width: 0;
   accent-color: var(--accent);
 }
 
-.video-controls .volume {
-  flex: 0 1 80px;
+.video-controls .video-volume {
+  flex: 0 0 80px;
+  width: 80px;
+  accent-color: var(--accent);
 }
 
 .video-controls button {

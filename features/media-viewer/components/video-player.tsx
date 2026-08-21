@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { Maximize2, Pause, Play, Volume2 } from 'lucide-react'
+import { Maximize2, Pause, Play, Volume2, VolumeX } from 'lucide-react'
 
 export type VideoPlayerHandle = {
   playWithSound: () => Promise<void>
@@ -21,6 +21,19 @@ type VideoPlayerProps = {
   manualStart?: boolean
 }
 
+function applyVolume(video: HTMLVideoElement, level: number) {
+  const clamped = Math.min(1, Math.max(0, level))
+
+  if (clamped <= 0) {
+    video.muted = true
+    video.volume = 0
+    return
+  }
+
+  video.muted = false
+  video.volume = clamped
+}
+
 export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(function VideoPlayer(
   { src, keyId, autoPlay = true, manualStart = false },
   ref,
@@ -29,10 +42,11 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
   const [progress, setProgress] = useState(0)
   const [volume, setVolume] = useState(1)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const isScrubbingProgress = useRef(false)
+  const isScrubbingVolume = useRef(false)
 
   const applyAudio = useCallback((video: HTMLVideoElement, level = volume) => {
-    video.muted = false
-    video.volume = level
+    applyVolume(video, level)
   }, [volume])
 
   const playWithSound = useCallback(async () => {
@@ -61,7 +75,7 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
-    video.volume = volume
+    applyVolume(video, volume)
   }, [volume])
 
   useEffect(() => {
@@ -134,6 +148,26 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
     }
   }
 
+  const handleProgressInput = (value: number) => {
+    const video = videoRef.current
+    if (!video?.duration) return
+
+    video.currentTime = (value / 100) * video.duration
+    setProgress(value)
+  }
+
+  const handleVolumeInput = (value: number) => {
+    setVolume(value)
+    if (videoRef.current) {
+      applyVolume(videoRef.current, value)
+    }
+  }
+
+  const stopVolumeScrub = (event: React.PointerEvent<HTMLInputElement>) => {
+    event.stopPropagation()
+    isScrubbingVolume.current = false
+  }
+
   return (
     <div className="video-player">
       <video
@@ -143,8 +177,12 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
         playsInline
         preload="auto"
         onTimeUpdate={() => {
+          if (isScrubbingProgress.current || isScrubbingVolume.current) return
+
           const video = videoRef.current
-          if (video) setProgress(video.duration ? (video.currentTime / video.duration) * 100 : 0)
+          if (video) {
+            setProgress(video.duration ? (video.currentTime / video.duration) * 100 : 0)
+          }
         }}
         onEnded={() => setPlaying(false)}
         onPointerDown={handleVideoPointerDown}
@@ -162,33 +200,52 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
         </button>
         <input
           aria-label="Прогрес відео"
+          className="video-progress"
           type="range"
           min={0}
           max={100}
+          step={0.1}
           value={progress}
+          onPointerDown={() => {
+            isScrubbingProgress.current = true
+          }}
+          onPointerUp={() => {
+            isScrubbingProgress.current = false
+          }}
+          onPointerCancel={() => {
+            isScrubbingProgress.current = false
+          }}
+          onInput={(event) => {
+            event.stopPropagation()
+            handleProgressInput(Number(event.currentTarget.value))
+          }}
           onChange={(event) => {
-            const video = videoRef.current
-            if (video?.duration) {
-              video.currentTime = (Number(event.target.value) / 100) * video.duration
-              setProgress(Number(event.target.value))
-            }
+            event.stopPropagation()
+            handleProgressInput(Number(event.currentTarget.value))
           }}
         />
-        <Volume2 />
+        {volume > 0 ? <Volume2 /> : <VolumeX />}
         <input
           aria-label="Гучність"
-          className="volume"
+          className="video-volume"
           type="range"
           min={0}
-          max={1}
-          step={0.1}
-          value={volume}
+          max={100}
+          step={1}
+          value={Math.round(volume * 100)}
+          onPointerDown={(event) => {
+            event.stopPropagation()
+            isScrubbingVolume.current = true
+          }}
+          onPointerUp={stopVolumeScrub}
+          onPointerCancel={stopVolumeScrub}
+          onInput={(event) => {
+            event.stopPropagation()
+            handleVolumeInput(Number(event.currentTarget.value) / 100)
+          }}
           onChange={(event) => {
-            const value = Number(event.target.value)
-            setVolume(value)
-            if (videoRef.current) {
-              applyAudio(videoRef.current, value)
-            }
+            event.stopPropagation()
+            handleVolumeInput(Number(event.currentTarget.value) / 100)
           }}
         />
         <button type="button" onClick={() => videoRef.current?.requestFullscreen()} aria-label="На весь екран">
