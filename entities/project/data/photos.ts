@@ -74,7 +74,7 @@ export const photos: Project[] = [
     }],
   },
   {
-    id: 'look-08',
+    id: 'look-07',
     title: 'Work Experience',
     category: 'Runway / Portrait',
     year: '2024',
