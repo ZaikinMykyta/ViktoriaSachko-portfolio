@@ -35,17 +35,35 @@ const videos = fs
 for (const video of videos) {
   const baseName = path.parse(video).name
   const posterPath = path.join(postersDir, `${baseName}.jpg`)
-  const videoPath = path.join(videosDir, video)
 
   if (fs.existsSync(posterPath)) {
-    continue
+    const posterStat = fs.statSync(posterPath)
+    const videoStat = fs.statSync(path.join(videosDir, video))
+    if (posterStat.mtimeMs >= videoStat.mtimeMs) {
+      continue
+    }
   }
+
+  const videoPath = path.join(videosDir, video)
 
   console.log(`Generating poster: ${baseName}.jpg`)
 
   const result = spawnSync(
     'ffmpeg',
-    ['-y', '-i', videoPath, '-ss', '00:00:00.100', '-vframes', '1', '-q:v', '2', posterPath],
+    [
+      '-y',
+      '-i',
+      videoPath,
+      '-ss',
+      '00:00:00.100',
+      '-vframes',
+      '1',
+      '-q:v',
+      '2',
+      '-update',
+      '1',
+      posterPath,
+    ],
     { stdio: 'inherit' },
   )
 

@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: 'Viktoria Sachko',
   title: 'Viktoria Sachko — Photographer & Videographer',
-  description: 'Портфоліо Вікторії Сачко — фотографки та відеографки.',
-  tagline: 'Fashion Photographer & Videographer',
+  description: 'Viktoria Sachko Portfolio',
+  tagline: 'Photographer & Videographer',
   copyright: '© 2026 Viktoria Sachko',
   contact: {
     email: 'victoriasachko7@gmail.com',

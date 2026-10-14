@@ -43,14 +43,9 @@ export function AboutSection() {
           </div>
           <div className="about-copy">
             <p>
-            Я — фотограф та відеограф у сфері
-            fashion та комерційного контенту.
-            Працюю з брендами, моделями та
-            приватними клієнтами. Маю близько 2
-            років досвіду у фотографії та
-            відеографії.Створюю контент, який
-            передає індивідуальність, характер та
-            концепцію бренду
+            I am a fashion and commercial content photographer and videographer. 
+            I work with brands, models, and private clients, with around two years of experience in the field. 
+            I create content that conveys individuality, character, and brand identity.
             </p>
           </div>
         </div>

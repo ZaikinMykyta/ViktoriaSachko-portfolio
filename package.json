@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/generate-posters.mjs",
+    "transcode-videos": "node scripts/transcode-videos.mjs",
+    "generate-posters": "node scripts/generate-posters.mjs",
+    "prebuild": "node scripts/transcode-videos.mjs && node scripts/generate-posters.mjs",
     "build": "next build",
     "start": "next start"
   },

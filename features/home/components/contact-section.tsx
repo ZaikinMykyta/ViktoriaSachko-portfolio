@@ -9,7 +9,7 @@ export function ContactSection() {
       <Container className="contact-inner">
         <SectionLabel>Contact</SectionLabel>
         <h2>Let&apos;s create together.</h2>
-        <p className="contact-text">Відкрита до нових проєктів та співпраці.</p>
+        <p className="contact-text">Open to new projects and collaboration.</p>
         <div className="contact-links">
           <a
             href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
