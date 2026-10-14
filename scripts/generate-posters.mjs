@@ -37,6 +37,10 @@ for (const video of videos) {
   const posterPath = path.join(postersDir, `${baseName}.jpg`)
 
   if (fs.existsSync(posterPath)) {
+    if (process.env.CI) {
+      continue
+    }
+
     const posterStat = fs.statSync(posterPath)
     const videoStat = fs.statSync(path.join(videosDir, video))
     if (posterStat.mtimeMs >= videoStat.mtimeMs) {
