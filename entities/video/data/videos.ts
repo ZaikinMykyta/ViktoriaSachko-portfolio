@@ -27,7 +27,7 @@ export const videos: VideoItem[] = [
     poster: publicAsset('/posters/IMG_9284.jpg'),
   },
   {
-    title: 'FASHION SHOW ВІД GRUNGE STUDIO',
+    title: 'FASHION SHOW WITH GRUNGE STUDIO',
     category: 'Fashion film',
     url: publicAsset('/videos/IMG_4157.mp4'),
     poster: publicAsset('/posters/IMG_4157.jpg'),
