@@ -3,6 +3,12 @@ import { publicAsset } from '@/shared/lib/public-asset'
 
 export const videos: VideoItem[] = [
   {
+    title: 'STREETSTYLE FOR DREAMING ELI',
+    category: 'Fashion film',
+    url: publicAsset('/videos/Dreaming_Eli.mp4'),
+    poster: publicAsset('/posters/Dreaming_Eli.jpg'),
+  },
+  {
     title: 'RICHARD QUIIN\nLFWSS27',
     category: 'Fashion film',
     url: publicAsset('/videos/Richard_Quiin.mp4'),
@@ -13,12 +19,6 @@ export const videos: VideoItem[] = [
     category: 'Fashion film',
     url: publicAsset('/videos/Londonscout.mp4'),
     poster: publicAsset('/posters/Londonscout.jpg'),
-  },
-  {
-    title: 'STREETSTYLE FOR DREAMING ELI',
-    category: 'Fashion film',
-    url: publicAsset('/videos/Dreaming_Eli.mp4'),
-    poster: publicAsset('/posters/Dreaming_Eli.jpg'),
   },
   {
     title: 'MBR`26\nCOLABORATION WITH LA TYANA',

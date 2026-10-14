@@ -196,18 +196,6 @@ export const photos: Project[] = [
     }],
   },
   {
-    id: 'look-15',
-    title: 'Work Experience',
-    category: 'Fashion / Portrait',
-    year: '2025',
-    cover: img0035.src,
-    media: [{
-      type: 'image',
-      url: img0035.src,
-      alt: 'Модель на показі моди',
-    }],
-  },
-  {
     id: 'look-16',
     title: 'Work Experience',
     category: 'Fashion / Portrait',
@@ -228,18 +216,6 @@ export const photos: Project[] = [
     media: [{
       type: 'image',
       url: img4680.src,
-      alt: 'Модель на показі моди',
-    }],
-  },
-  {
-    id: 'look-18',
-    title: 'Work Experience',
-    category: 'Fashion / Portrait',
-    year: '2025',
-    cover: img0035.src,
-    media: [{
-      type: 'image',
-      url: img0035.src,
       alt: 'Модель на показі моди',
     }],
   },
@@ -276,18 +252,6 @@ export const photos: Project[] = [
     media: [{
       type: 'image',
       url: img6608.src,
-      alt: 'Модель на показі моди',
-    }],
-  },
-  {
-    id: 'look-22',
-    title: 'Work Experience',
-    category: 'Fashion / Portrait',
-    year: '2025',
-    cover: img0035.src,
-    media: [{
-      type: 'image',
-      url: img0035.src,
       alt: 'Модель на показі моди',
     }],
   },
